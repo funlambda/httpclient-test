@@ -5,11 +5,11 @@ open System.Net
 let test1 client = async {
     let call = call client
 
-    let! page = 
-        call "http://www.cnn.com" GET
+    let! result =
+        call ("http://admin:9093/init/create-account") GET
         |~> getStringBody
 
-    return page
+    return result
 }
 
 [<EntryPoint>]
