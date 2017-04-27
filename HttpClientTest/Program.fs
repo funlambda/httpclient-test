@@ -1,9 +1,20 @@
 ﻿open System.Net.Http
+open Http
+
+let test1 call = async {
+    let! page = 
+        call "http://www.cnn.com" GET
+        |~> getStringBody
+
+    return page
+}
 
 [<EntryPoint>]
 let main argv = 
     let client = new HttpClient()
-    let response = client.GetAsync("http://www.google.com/") |> Async.AwaitTask |> Async.RunSynchronously
-    let str = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
-    printfn "%A" str
+    let call = call client
+    
+    let res = test1 call |> Async.RunSynchronously
+
+    printfn "%A" res
     0 // return an integer exit code
